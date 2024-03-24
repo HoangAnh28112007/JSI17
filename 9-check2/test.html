@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Independent Clocks</title>
+    <style>
+        /* CSS styling for clock display */
+        .clock {
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="clock" id="clock1">
+        <span class="hrs">00</span>:
+        <span class="min">00</span>:
+        <span class="sec">00</span>:
+        <span class="ms">00</span>
+    </div>
+    <button onclick="startClock(1)">Start</button>
+    <button onclick="stopClock(1)">Stop</button>
+    <button onclick="resetClock(1)">Reset</button>
+
+    <div class="clock" id="clock2">
+        <span class="hrs">00</span>:
+        <span class="min">00</span>:
+        <span class="sec">00</span>:
+        <span class="ms">00</span>
+    </div>
+    <button onclick="startClock(2)">Start</button>
+    <button onclick="stopClock(2)">Stop</button>
+    <button onclick="resetClock(2)">Reset</button>
+
+    <script>
+        let clocks = {
+            1: { hrs: 0, min: 0, sec: 0, ms: 0, timer: null },
+            2: { hrs: 0, min: 0, sec: 0, ms: 0, timer: null }
+        };
+
+        function startClock(clockId) {
+            const clock = clocks[clockId];
+            clearInterval(clock.timer);
+            clock.timer = setInterval(() => {
+                clock.ms++;
+                if (clock.ms === 100) {
+                    clock.sec++;
+                    clock.ms = 0;
+                }
+                if (clock.sec === 60) {
+                    clock.min++;
+                    clock.sec = 0;
+                }
+                if (clock.min === 60) {
+                    clock.hrs++;
+                    clock.min = 0;
+                }
+                updateDisplay(clockId);
+            }, 10);
+        }
+
+        function stopClock(clockId) {
+            clearInterval(clocks[clockId].timer);
+        }
+
+        function resetClock(clockId) {
+            const clock = clocks[clockId];
+            clock.hrs = clock.min = clock.sec = clock.ms = 0;
+            clearInterval(clock.timer);
+            updateDisplay(clockId);
+        }
+
+        function updateDisplay(clockId) {
+            const clock = clocks[clockId];
+            const phrs = clock.hrs < 10 ? '0' + clock.hrs : clock.hrs;
+            const pmin = clock.min < 10 ? '0' + clock.min : clock.min;
+            const psec = clock.sec < 10 ? '0' + clock.sec : clock.sec;
+            const pms = clock.ms < 10 ? '0' + clock.ms : clock.ms;
+
+            // Hiển thị lên giao diện
+            document.querySelector(`#clock${clockId} .hrs`).innerText = phrs;
+            document.querySelector(`#clock${clockId} .min`).innerText = pmin;
+            document.querySelector(`#clock${clockId} .sec`).innerText = psec;
+            document.querySelector(`#clock${clockId} .ms`).innerText = pms;
+        }
