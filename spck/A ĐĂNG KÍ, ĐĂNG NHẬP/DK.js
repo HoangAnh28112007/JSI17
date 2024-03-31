@@ -5,6 +5,12 @@ const dang_ky = () =>{
         name: email,
         password: pass
     };
+
+    fetch("", {
+        method: "POST",
+        headers: {'content-type': 'application/json'},
+        body: JSON.stringify(data)
+    })
 }
 
 window.location.href = "./DN.html"

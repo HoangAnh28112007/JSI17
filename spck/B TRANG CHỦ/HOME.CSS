@@ -1,3 +1,5 @@
+/* header */
+
 * {
     margin: 0 auto;
     padding: 0;
@@ -71,4 +73,12 @@ body {
 
 .menu span {
     z-index: 10;
+}
+
+/* body */
+.body img {
+    display: flex;
+    align-items: center;
+    height: 400px;
+    width: 90%;
 }
